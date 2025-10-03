@@ -11,9 +11,9 @@ def test_sample_run_anonymizer():
     item = result.items[0]
 
     # Verify its fields
-    assert item.start == 11
-    assert item.end == 14
+    assert item.start == 11                # start index of original entity
+    assert item.end == 15                  # end index (exclusive)
+    assert item.length == 4                # length of the original entity "Bond"
     assert item.entity_type == "PERSON"
     assert item.text == "BIP"
     assert item.operator == "replace"
-    pass
