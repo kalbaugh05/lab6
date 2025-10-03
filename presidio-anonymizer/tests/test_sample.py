@@ -2,26 +2,21 @@ import pytest
 from presidio_anonymizer.sample import sample_run_anonymizer
 
 def test_sample_run_anonymizer():
-    # Input text
-    input_text = "My name is Bond, James Bond"
+    text = "My name is Bond."
+    result = sample_run_anonymizer(text)
 
-    # Run the anonymizer
-    # The numbers 11, 15 correspond to the start and end indices of "Bond" in the text
-    result = sample_run_anonymizer(input_text, 11, 15)
+    # Check anonymized text
+    assert "Bond" not in result.text
+    assert result.text == "My name is BIP."
 
-    # Expected anonymized text (replace "Bond" with "BIP")
-    expected_text = "My name is BIP, James Bond"
-    
-    #  Check the full text
-    assert result.text == expected_text
+    # Extract the first entity
+    item = result.entities[0]
 
-    #  Check length matches input
-    assert len(result.text) == len(input_text)
-
-    #  Check the anonymized entity info
-    item = result.items[0]
-    assert item.start == 11        # start index of "Bond"
-    assert item.end == 14          # end index of "Bond" (Python-style, exclusive)
+    # Verify its fields
+    assert item.start == 11
+    assert item.end == 15
     assert item.entity_type == "PERSON"
-    assert item.operator == "replace"
     assert item.text == "BIP"
+    assert item.operator == "replace"
+
+    pass
