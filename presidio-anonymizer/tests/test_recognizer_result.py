@@ -292,17 +292,17 @@ from presidio_anonymizer.entities.engine.recognizer_result import RecognizerResu
     [
         (0, 5, 6, 10, 0),       # No overlap
         (0, 10, 0, 10, 10),     # Full overlap
-        (0, 5, 3, 8, 2),        # Partial overlap (self starts before other)
-        (3, 8, 0, 5, 2),        # Partial overlap (self starts after other)
+        (0, 5, 3, 8, 2),        # Partial overlap (self before other)
+        (3, 8, 0, 5, 2),        # Partial overlap (other before self)
         (0, 10, 2, 5, 3),       # Containment (self contains other)
-        (2, 5, 0, 10, 3),       # Containment (self inside other)
+        (2, 5, 0, 10, 3),       # Containment (other contains self)
         (0, 5, 5, 10, 0),       # Exact-touch boundary
-        (5, 10, 0, 5, 0),       # Exact-touch boundary
+        (5, 10, 0, 5, 0),       # Exact-touch boundary (reversed)
     ]
 )
-def test_intersects(a_start, a_end, b_start, b_end, expected):
-    a = RecognizerResult("TEST", a_start, a_end, 1.0)
-    b = RecognizerResult("TEST", b_start, b_end, 1.0)
+def test_intersects(a_start, a_end, b_start, b_end, expected, create_recognizer_result):
+    a = create_recognizer_result("TEST", a_start, a_end, 1.0)
+    b = create_recognizer_result("TEST", b_start, b_end, 1.0)
     assert a.intersects(b) == expected
     assert b.intersects(a) == expected
 

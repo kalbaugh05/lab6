@@ -11,6 +11,7 @@ from presidio_anonymizer.entities.engine import PIIEntity
 from presidio_anonymizer.services.validators import validate_parameter_exists
 
 
+
 class RecognizerResult(PIIEntity):
     """
     Recognizer Result represents the findings of the detected entity.
@@ -122,6 +123,7 @@ class RecognizerResult(PIIEntity):
         :return:
         """
         return self.start == other.start and self.end == other.end
+
 
     def intersects(self, other) -> int:
         """
